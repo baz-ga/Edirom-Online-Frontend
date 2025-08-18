@@ -40,7 +40,7 @@ jobs:
       - name: Upload XAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: edirom-online-frontend-xar
+          name: eo-frontend
           path: build-xar/*.xar
   release:
       needs: build
@@ -49,7 +49,7 @@ jobs:
         - name: Download XAR Artifact
           uses: actions/download-artifact@v4
           with:
-            name: edirom-online-frontend-xar
+            name: eo-frontend
 
         - name: Get Release by Tag
           id: get_release
@@ -69,6 +69,6 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             upload_url: ${{ steps.get_release.outputs.result }}
-            asset_path: edirom-online-frontend-xar/edirom-online-frontend-xar.xar
-            asset_name: edirom-online-frontend-ewk-latest.xar
+            asset_path: eo-frontend/eo-frontend-ewk-latest.xar
+            asset_name: eo-frontend-ewk-latest.xar
             asset_content_type: application/octet-stream
