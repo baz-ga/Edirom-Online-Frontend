@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: eof-ewk-build
-          path: build
+          path: build/**
   release:
       needs: build
       runs-on: ubuntu-latest
@@ -65,6 +65,9 @@ jobs:
         - name: Rename XAR file
           run: |
             mv Edirom-Online-Frontend*.xar eof-ewk-latest.xar
+
+        - name: List folder
+          run: ls -la
 
         - name: Archive build folder
           run: |
