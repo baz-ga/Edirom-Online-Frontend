@@ -76,3 +76,17 @@ jobs:
             asset_path: ./eof-ewk-latest.xar
             asset_name: eof-ewk-latest.xar
             asset_content_type: application/octet-stream
+
+        - name: Archive build folder
+          run: |
+            tar -czf eof-ewk-build.tar.gz build
+
+        - name: Upload build folder to Release
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.get_release.outputs.upload_url }}
+            asset_path: ./eof-ewk-build.tar.gz
+            asset_name: eof-ewk-build.tar.gz
+            asset_content_type: application/gzip
