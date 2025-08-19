@@ -51,9 +51,12 @@ jobs:
           with:
             name: eof-ewk
 
+        - name: List files before rename
+          run: ls -l
+
         - name: Rename XAR file
           run: |
-            mv build-xar/Edirom-Online*.xar build-xar/eof-ewk-latest.xar
+            mv Edirom-Online-Frontend*.xar eof-ewk-latest.xar
 
         - name: List files after rename
           run: ls -l
