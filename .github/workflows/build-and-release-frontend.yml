@@ -67,7 +67,7 @@ jobs:
             mv Edirom-Online-Frontend*.xar eof-ewk-latest.xar
 
         - name: List folder
-          run: ls -la
+          run: ls -la ./temp
 
         - name: Archive build folder
           run: |
