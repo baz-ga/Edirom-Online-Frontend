@@ -17,6 +17,12 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/**
+ * Define JSON
+ * @typedef {string} JSON
+ */
+
 Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     extend: 'EdiromOnline.view.window.View',
 
@@ -189,6 +195,11 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         }
 
     },
+
+    /**
+     *  Sets the measures for MeasureBasedView.
+     *  @param {Array.measures} measures fields: ['id', 'measures', 'name', 'mdivs']
+     */
 
     setMeasures: function(measures) {
         var me = this;
