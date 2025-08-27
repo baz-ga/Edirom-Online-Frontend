@@ -202,7 +202,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         }else if(me.imageSet.getCount() > 0)
         */
 
-           me.measureSpinner.setMeasure(me.measures.getAt(0));
+       me.measureSpinner.setMeasure(me.measures.getAt(0));
     },
 
     showMeasure: function(movementId, measureId, measureCount) {
