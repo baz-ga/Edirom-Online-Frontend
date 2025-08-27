@@ -275,15 +275,6 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
                 }
 
                 viewer.show();
-            }
-        });
-
-        Ext.Array.each(me.measures.get('measures'), function(m) {
-
-            var voice = m['voice'];
-
-            if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
-                var viewer = me.viewers.get(voice);
 
                 viewer.setMeasure(m, measureCount);
             }
