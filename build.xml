@@ -27,6 +27,13 @@
     
     <tstamp/>
 
+    <target name="check-dependencies">
+        <exec executable="/bin/sh" os="Linux">
+            <arg value="-c"/>
+            <arg value="type sencha ant ruby &gt;&amp;2"/>
+        </exec>
+    </target>
+    
     <!-- Download Euryanthe Font Zip file and extract it to ${euryanthe.dir} -->
     <target name="download-euryanthe">
         <mkdir dir="${euryanthe.dir}"/>
