@@ -34,6 +34,15 @@
         </exec>
     </target>
     
+    <target name="-clean">
+        <delete dir="${build.temp.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${build.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </delete>
+    </target>
+    
     <!-- Download Euryanthe Font Zip file and extract it to ${euryanthe.dir} -->
     <target name="download-euryanthe">
         <mkdir dir="${euryanthe.dir}"/>
