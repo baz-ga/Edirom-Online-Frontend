@@ -122,14 +122,6 @@ span.musicalSymbol {
     padding-right: 20px;
 }
 
-/* Fix for Chrome: splitter in Annotation View */
-.annotationView .x-splitter-horizontal {
-    background-image: -webkit-radial-gradient(50% 50%,ellipse cover,#999,white 50%);
-}
-
-.annotationView .x-splitter-vertical {
-    background-image: -webkit-radial-gradient(50% 50%,ellipse cover,#999,white 50%);
-}
 
 /*text Metadata*/
 
@@ -264,16 +256,6 @@ left: 10px;
 
 .annotTip .contentBox {
     width: 100% !important;
-}
-
-.annotView .ref {
-    color: rgb(146, 64, 92);
-}
-
-.annotView .ref:hover {
-    color: rgb(146, 64, 92);
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 /* SEARCH WINDOW */
