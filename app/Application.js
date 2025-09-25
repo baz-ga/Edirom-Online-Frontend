@@ -284,45 +284,5 @@ Ext.define('EdiromOnline.Application', {
         if(uris){
             window.loadLink(uris);
         }
-    },
-    loadWebComponents: function() {
-        var me = this;
-
-        var prefController = me.getController('PreferenceController');
-        if (!prefController) {
-            console.warn('PreferenceController not available');
-            return;
-        }
-
-        try {
-            var components = prefController.getPreference('web-components', true);
-
-            if (components !== null && components !== undefined) {
-                if (components['edirom_keycloak_handler']) {
-                    // Dynamically load the keycloak handler script
-                    var handlerScript = document.createElement('script');
-                    handlerScript.src = components['edirom_keycloak_handler'].script || 'resources/web-components/edirom-keycloak-handler/keycloak-handler.js';
-                    document.body.appendChild(handlerScript);
-
-                    // Create the keycloak handler element
-                    var handlerElement = document.createElement('keycloak-handler');
-                    document.body.appendChild(handlerElement);
-
-                    // Set attributes for the keycloak handler element
-                    handlerElement.setAttribute('url', components['edirom_keycloak_handler']['url']);
-                    handlerElement.setAttribute('realm', components['edirom_keycloak_handler']['realm']);
-                    handlerElement.setAttribute('client-id', components['edirom_keycloak_handler']['client_id']);
-                    handlerElement.setAttribute(
-                        'redirect_uri',
-                        window.location.origin + (components['edirom_keycloak_handler']['redirect_uri'] || window.location.origin + '/silent-check-sso.html')
-                    );
-                }
-            } else {
-                console.log('No web-components configuration found in preferences');
-            }
-        }
-        catch (error) {
-            console.warn('Error loading web-components preference:', error);
-        }
     }
 });
