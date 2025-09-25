@@ -36,6 +36,9 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
 
         var me = this;
 
+        var configController = me.getApplication().getController('ConfigController');
+        var backendURL = configController && configController.hasConfig('backendURL') ? configController.getConfig('backendURL') : '@backend.url@';
+
         if(view.initialized) return;
         view.initialized = true;
 
@@ -76,7 +79,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
         // Fetching content of CITATION.cff files and set result
         Promise.all([
             fetchContent('../resources/CITATION.cff'),
-            fetchContent('@backend.url@resources/CITATION.cff')
+            fetchContent(`${backendURL}resources/CITATION.cff`)
         ]).then(function([frontend, backend]) {
             view.setResult(`
                 <div class="tei_body">

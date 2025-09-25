@@ -23,6 +23,7 @@ Ext.define('EdiromOnline.Application', {
     
     controllers: [
         'AJAXController',
+        'ConfigController',
         'CookieController',
         'LanguageController',
         'PreferenceController',
@@ -68,7 +69,16 @@ Ext.define('EdiromOnline.Application', {
 
     launch: function() {
         var me = this;
-        
+
+        me.getController('ConfigController').loadConfig(function (config) {
+            me.backendURL = config.backendURL || me.backendURL;
+            me.initializeApplication();
+        }, me);
+    },
+
+    initializeApplication: function () {
+        var me = this;
+
         window.getActiveEdition = Ext.bind(this.getActiveEdition, this);
 
         me.addEvents('workSelected');
@@ -97,14 +107,16 @@ Ext.define('EdiromOnline.Application', {
                     // If there is only one edition in the backend load it directly
                     }else if(!Array.isArray(editions)) {
                         this.activeEdition = editions.id;
-                        this.loadWebComponents();
-                        this.loadEdiromForEdition();
+                        me.getController('PreferenceController').initPreferences(me.activeEdition);
+                        me.loadWebComponents();
+                        me.loadEdiromForEdition();
 
                     // If there is only one edition in the backend load it directly
                     }else if(editions.length == 1) {
                         this.activeEdition = editions[0].id;
-                        this.loadWebComponents();
-                        this.loadEdiromForEdition();
+                        me.getController('PreferenceController').initPreferences(me.activeEdition);
+                        me.loadWebComponents();
+                        me.loadEdiromForEdition();
 
                     // If there are multiple editions in the backend show a selection screen
                     }else {
@@ -135,7 +147,6 @@ Ext.define('EdiromOnline.Application', {
                         
                         html += '</ul></div>';
                         document.body.innerHTML = html;
-                        this.loadWebComponents();
                     }                 
 
                 }, this),
@@ -144,6 +155,7 @@ Ext.define('EdiromOnline.Application', {
 
         }else {
             me.activeEdition = editionParam;
+            me.getController('PreferenceController').initPreferences(me.activeEdition);
             me.loadWebComponents();
             me.loadEdiromForEdition();
         }
@@ -181,8 +193,7 @@ Ext.define('EdiromOnline.Application', {
             2, // retries
             false // async
         );
-        
-        me.getController('PreferenceController').initPreferences(me.activeEdition);
+
         me.getController('LanguageController').initLangFile(me.activeEdition, 'de');
         me.getController('LanguageController').initLangFile(me.activeEdition, 'en');
         me.initDataStores();
@@ -276,28 +287,42 @@ Ext.define('EdiromOnline.Application', {
     },
     loadWebComponents: function() {
         var me = this;
-        var components = me.getController('PreferenceController').getPreference('web-components', true);
-        
-        if(components){
-            if (components['edirom_keycloak_handler']) {
-                // Dynamically load the keycloak handler script
-                var handlerScript = document.createElement('script');
-                handlerScript.src = components['edirom_keycloak_handler'].script || 'resources/web-components/edirom-keycloak-handler/keycloak-handler.js';
-                document.body.appendChild(handlerScript);
 
-                // Create the keycloak handler element
-                var handlerElement = document.createElement('keycloak-handler');
-                document.body.appendChild(handlerElement);
+        var prefController = me.getController('PreferenceController');
+        if (!prefController) {
+            console.warn('PreferenceController not available');
+            return;
+        }
 
-                // Set attributes for the keycloak handler element
-                handlerElement.setAttribute('url', components['edirom_keycloak_handler']['url']);
-                handlerElement.setAttribute('realm', components['edirom_keycloak_handler']['realm']);
-                handlerElement.setAttribute('client-id', components['edirom_keycloak_handler']['client_id']);
-                handlerElement.setAttribute(
-                    'redirect_uri',
-                    window.location.origin + (components['edirom_keycloak_handler']['redirect_uri'] || window.location.origin + '/silent-check-sso.html')
-                );
+        try {
+            var components = prefController.getPreference('web-components', true);
+
+            if (components !== null && components !== undefined) {
+                if (components['edirom_keycloak_handler']) {
+                    // Dynamically load the keycloak handler script
+                    var handlerScript = document.createElement('script');
+                    handlerScript.src = components['edirom_keycloak_handler'].script || 'resources/web-components/edirom-keycloak-handler/keycloak-handler.js';
+                    document.body.appendChild(handlerScript);
+
+                    // Create the keycloak handler element
+                    var handlerElement = document.createElement('keycloak-handler');
+                    document.body.appendChild(handlerElement);
+
+                    // Set attributes for the keycloak handler element
+                    handlerElement.setAttribute('url', components['edirom_keycloak_handler']['url']);
+                    handlerElement.setAttribute('realm', components['edirom_keycloak_handler']['realm']);
+                    handlerElement.setAttribute('client-id', components['edirom_keycloak_handler']['client_id']);
+                    handlerElement.setAttribute(
+                        'redirect_uri',
+                        window.location.origin + (components['edirom_keycloak_handler']['redirect_uri'] || window.location.origin + '/silent-check-sso.html')
+                    );
+                }
+            } else {
+                console.log('No web-components configuration found in preferences');
             }
+        }
+        catch (error) {
+            console.warn('Error loading web-components preference:', error);
         }
     }
 });
