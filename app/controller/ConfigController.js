@@ -31,7 +31,7 @@ Ext.define('EdiromOnline.controller.ConfigController', {
                 callback.call(scope || this, this.config);
             }
         } catch (e) {
-            console.log('Could not load a custom config.json:', e.message, '– Using default configuration.');
+            console.log('No custom config.json found or syntax error – Using default configuration.');
             this.loadDefaultConfig(callback, scope);
         }
     },
