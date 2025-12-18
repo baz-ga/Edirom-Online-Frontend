@@ -24,15 +24,15 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
         'window.about.AboutWindow'
     ],
 
-    init: function () {
+    init: function() {
         this.control({
             'aboutWindow': {
-                afterlayout: this.onAfterLayout
+                afterlayout : this.onAfterLayout
             }
         });
     },
 
-    onAfterLayout: function (view) {
+    onAfterLayout: function(view) {
 
         var me = this;
 
@@ -88,7 +88,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
         Promise.all([
             fetchContent(frontendURLcitation),
             fetchContent(backendURLcitation)
-        ]).then(function ([frontend, backend]) {
+        ]).then(function([frontend, backend]) {
             view.setResult(`
                 <div class="tei_body">
                     <h1>About Edirom-Online</h1>
@@ -106,7 +106,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
                     ${frontend}
                     ${backend}
                 </div>`);
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.error('Error fetching CITATION.cff files:', error);
             view.setResult(`
                 <div class="tei_body">

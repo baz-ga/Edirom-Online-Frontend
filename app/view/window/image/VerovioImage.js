@@ -128,12 +128,10 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	gotoMeasureByAttributes: function (measureNumber, movementId) {
 		var me = this;
 		var iframe = Ext.fly(me.id + '_rendContIFrame').dom.contentWindow;
-
 		// First switch to the movement, then navigate to the measure
 		iframe.showMovement(movementId);
-
 		// Wait a bit for the movement to load, then set the measure
-		setTimeout(function () {
+		setTimeout(function() {
 			var renderer = iframe.document.getElementById("verovio-renderer");
 			if (renderer) {
 				renderer.setAttribute("measurenumber", measureNumber);
