@@ -34,7 +34,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	setIFrameContent: function (uri, edition) {
 		var me = this;
 
-		var configController = me.getApplication().getController('ConfigController');
+		var configController = EdiromOnline.getApplication().getController('ConfigController');
 		var backendURL = configController && configController.hasConfig('backendURL') ? configController.getConfig('backendURL') : '@backend.url@';
 
 		var html = `<html>
@@ -62,7 +62,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 						var uri = "${uri}";
 						var edition = "${edition}";
 						var movementId = "";
-						var appBasePath = "@backend.url@";
+						var appBasePath = "${backendURL}";
 						var meiUrl = appBasePath + "/data/xql/getMusicInMdiv.xql?uri=" + uri + "&edition=" + edition;
 						</script>
 					

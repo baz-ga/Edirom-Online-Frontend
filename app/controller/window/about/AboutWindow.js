@@ -36,7 +36,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
 
         var me = this;
 
-        var configController = me.getApplication().getController('ConfigController');
+        var configController = EdiromOnline.getApplication().getController('ConfigController');
         var backendURL = configController && configController.hasConfig('backendURL') ? configController.getConfig('backendURL') : '@backend.url@';
 
         if (view.initialized) return;
