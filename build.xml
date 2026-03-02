@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="EdiromOnline" default="xar">
     
+    <!-- This build script makes use of some extensions point provided by
+         Sencha Cmd. For more information please visit:
+         https://docs.sencha.com/cmd/guides/advanced_cmd/cmd_build.html
+    -->
+    
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
     
     <!-- Load local property overrides if available -->
