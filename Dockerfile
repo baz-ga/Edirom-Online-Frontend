@@ -66,7 +66,7 @@ RUN echo "Writing backend.port=$BE_PORT to local.properties…"; \
         echo "backend.port=$BE_PORT" >> local.properties; \
     fi && \
     echo "Building Frontend XAR..." && \
-    ./build.sh
+    sencha app build
 
 #########################
 # 3. Run/deploy nginx
