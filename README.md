@@ -50,7 +50,7 @@ sencha app build testing
 ant build-testing
 ```
 
-If you are interested in the deeper structure of the build process, please refer to [Sencha Cmd build guide] and )
+If you are interested in the deeper structure of the build process, please refer to the [Sencha Cmd: Inside The App Build Process].
 
 #### Overriding build properties locally
 
@@ -160,7 +160,7 @@ Edirom-Online Frontend is released to the public under the terms of the [MIT] op
 [bwbohl/sencha-cmd]: https://github.com/bwbohl/sencha-cmd/pkgs/container/sencha-cmd
 [Sencha Cmd]: https://docs.sencha.com/cmd/7.0.0/index.html
 [Sencha Cmd CLI reference]: https://docs.sencha.com/cmd/7.0.0/guides/cli_reference.html
-[Sencha Cmd Inside The App Build Process]: https://docs.sencha.com/cmd/7.0.0/guides/advanced_cmd/cmd_build.html
+[Sencha Cmd: Inside The App Build Process]: https://docs.sencha.com/cmd/7.0.0/guides/advanced_cmd/cmd_build.html
 [apache-ant]: https://ant.apache.org/
 [exist-db via Docker]: https://exist-db.org/exist/apps/doc/docker
 [building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
