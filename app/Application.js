@@ -85,7 +85,6 @@ Ext.define('EdiromOnline.Application', {
             me.backendURL = config.backendURL || me.backendURL;
             EdiromOnline.model.Edition.updateProxyUrl(me.backendURL);
             EdiromOnline.model.Work.updateProxyUrl(me.backendURL);
-            EdiromOnline.model.Annotation.updateProxyUrl(me.backendURL);
             me.initializeApplication();
         }, me);
     },
