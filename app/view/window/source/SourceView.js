@@ -356,13 +356,8 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             });
         });
 
-        me.viewMenu.menu.add({
-            id: me.id + '_showHideOverlays',
-            text: getLangString('view.window.source.SourceView_layersMenu'),
-            menu: {
-                items: overlayItems
-            }
-        });
+        me.layersMenu.menu.add(overlayItems);
+        me.layersMenu.show();
     },
 
     overlayVisibilityChanged: function(item, event) {
@@ -405,6 +400,18 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     createMenuEntries: function() {
 
         var me = this;
+
+        // layers menu (used for overlay toggles — hidden until overlays are available)
+        me.layersMenu = Ext.create('Ext.button.Button', {
+            text: getLangString('view.window.source.SourceView_layersMenu'),
+            indent: false,
+            cls: 'menuButton',
+            hidden: true,
+            menu: {
+                items: []
+            }
+        });
+        me.window.getTopbar().addViewSpecificItem(me.layersMenu, me.id);
 
         // annotations menu (used for priority and category filter)
         me.annotMenu =  Ext.create('Ext.button.Button', {
