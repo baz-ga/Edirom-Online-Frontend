@@ -41,9 +41,9 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     annotationsVisible: false,
     annotationsVisibilitySetLocaly: false,
     overlaysVisible: {},
-    
+
     cls: 'sourceView',
-    
+
     initComponent: function () {
 
         var me = this;
@@ -95,27 +95,27 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     getWeightForInternalLink: function(uri, type, id) {
         var me = this;
-        
+
         if(me.uri != uri)
             return 0;
-            
+
         if(type == 'measure' || type == 'zone' || type == 'surface' || type == 'graphic')
             return 70;
-        
+
         return 0;
     },
-        
+
     loadInternalId: function(id, type) {
         var me = this;
 
         if(type == 'measure') {
             me.window.requestForActiveView(me);
             me.gotoMeasure(id);
-        
+
         }else if(type == 'zone') {
             me.window.requestForActiveView(me);
             me.gotoZone(id);
-        
+
         }else if(type == 'surface' || type == 'graphic' ) {
             me.window.requestForActiveView(me);
             me.showPage(id);
@@ -123,7 +123,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     },
 
     checkGlobalVisibility: function(type) {
-        
+
         var me = this;
 
         // global visibility state
@@ -134,14 +134,14 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         me[type+'Visible'] = globalVisible;
 
         // if global is visible and local is also set to visible, do nothing
-        if( globalVisible && sessionStorage.getItem('edirom-'+type+'-visible-' + me.id) === 'true') 
+        if( globalVisible && sessionStorage.getItem('edirom-'+type+'-visible-' + me.id) === 'true')
             return;
 
         // update icon state
         if(globalVisible){
             document.getElementById('icon_display-'+type+'-window_'+me.id).setAttribute('pressed', '');
             sessionStorage.setItem('edirom-'+type+'-visible-' + me.id, 'true');
-            
+
         } else {
             document.getElementById('icon_display-'+type+'-window_'+me.id).removeAttribute('pressed');
             sessionStorage.removeItem('edirom-'+type+'-visible-' + me.id);
@@ -151,7 +151,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         me.fireEvent(type+'VisibilityChange', me, globalVisible);
 
     },
-    
+
     //TODO: in mixin verpacken, wenn möglich
     setAnnotationFilter: function(priorities, categories) {
         var me = this;
@@ -248,7 +248,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     setMovements: function(movements) {
         var me = this;
-        
+
         // get preference for movement / part - order
         var gotomenu_display = getPreference('gotomenu_display');
 
@@ -262,7 +262,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var movementItems = [];
         var partList = [];
         var partNames =[];
-        
+
         // iterate over submitted movements and push them to movementItems variable
         movements.data.each(function(movement) {
             // check if parts exist and if they have ids
@@ -296,7 +296,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
                     movement.data.parts.forEach(function(part){
                         parts.push(part);
                     });
-        
+
                     var partItems = [];
                     parts.forEach(function(part){
                         partItems.push({
@@ -304,7 +304,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
                             handler: Ext.bind(me.gotoMovement, me, part.id, true)
                         });
                     });
-                    
+
                     movementItems.push({
                         text: movement.get('name'),
                         menu: partItems
@@ -378,7 +378,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var me = this;
 
         me.pageBasedView.setPage(combo, store);
-        
+
         // check and activate measures visibility according to global setting
         if(sessionStorage.getItem('edirom-measures-visible-global') === 'true')
             this.fireEvent('measuresVisibilityChange', me, true);
@@ -472,7 +472,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             baseCls: 'edirom-icon-button',
             handler: Ext.bind(me.toggleMeasures, me, [])
         });
-        
+
         // button for toggling annotation visibility
         me.toggleAnnotationDisplay = Ext.create('Ext.button.Button', {
             html: '<edirom-icon id="icon_display-annotations-window_'+me.id+'" role="button" name="eo_toggle_annotations" title="' + getLangString('view.window.source.SourceView_showAnnotations') + '"></edirom-icon>',
@@ -481,7 +481,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         });
 
         // separator icon
-        me.separator = Ext.create('Ext.Component', { 
+        me.separator = Ext.create('Ext.Component', {
             html: '<edirom-icon name="horizontal_rule" rotate="90"></edirom-icon>'
         });
 
@@ -497,17 +497,17 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
         Ext.Array.each(entries, function(entry) {
 			if(image_server === 'digilib' || image_server === 'openseadragon'){
-				me.bottomBar.add(entry);    
+				me.bottomBar.add(entry);
 			}
 			else if(entry.initialCls !== 'zoomSlider' && entry.xtype !== 'tbseparator'){
-				me.bottomBar.add(entry);  
-			}      
+				me.bottomBar.add(entry);
+			}
         });
-        
+
         // add toolbar entries for measure based view
         entries = me.measureBasedView.createToolbarEntries();
-        Ext.Array.each(entries, function(entry) {			
-				me.bottomBar.add(entry);     
+        Ext.Array.each(entries, function(entry) {
+				me.bottomBar.add(entry);
         });
 
         // add other buttons
@@ -519,7 +519,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     switchInternalView: function(viewId) {
         var me = this;
-        
+
         if(viewId == 'pageBasedView') {
             // set pressed state of toggle button
             document.getElementById('icon_pageBasedView_'+me.id).setAttribute('pressed', '');
@@ -544,14 +544,14 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             //me.gotoMenu.menu.child('#' + me.id + '_gotoMovement').hide();
             me.gotoMenu.hide();
         }
-        
+
         me.activeView = viewId;
     },
 
     fitFacsimile: function() {
-        
+
         var me = this;
-        
+
         if(me.activeView == 'pageBasedView')
             me.pageBasedView.fitFacsimile();
         else if(me.activeView == 'measureBasedView')
@@ -559,7 +559,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     },
 
     toggleMeasures: function(item) {
-        
+
         var me = this;
 
         // toggle attribute in DOM and save state in session storage
@@ -567,7 +567,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var currentState = iconElem.hasAttribute('pressed');
 
         // if current button is pressed -> switch to hiding measures
-        if(currentState) {            
+        if(currentState) {
             iconElem.removeAttribute('pressed');
             sessionStorage.removeItem('edirom-measures-visible-'+me.id);
         }
@@ -606,7 +606,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             movements: me.movements,
             callback: Ext.bind(function(measure, movementId) {
                 this.fireEvent('gotoMeasureByName', this, measure, movementId);
-            }, 
+            },
             me)
         }).show();
     },
@@ -617,14 +617,14 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
-       
+
         if(me.activeView !== 'measureBasedView')
         	me.switchInternalView('measureBasedView');
-       
+
         me.measureBasedView.showMeasure(movementId, measureId, measureCount);
-   
+
     },
-    
+
     gotoZone: function(zoneId) {
         this.fireEvent('gotoZone', this, zoneId);
     },
@@ -633,7 +633,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var me = this;
         me.pageBasedView.showZone(zone);
     },
-    
+
     toggleAnnotations: function() {
 
 
@@ -644,7 +644,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var currentState = iconElem.hasAttribute('pressed');
 
         // if current button is pressed -> switch to hiding measures
-        if(currentState) {            
+        if(currentState) {
             iconElem.removeAttribute('pressed');
             sessionStorage.removeItem('edirom-annotations-visible-'+me.id);
         }
@@ -676,7 +676,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var me = this;
         me.pageBasedView.hideAnnotations();
     },
-    
+
     getContentConfig: function() {
         var me = this;
         return {
@@ -685,7 +685,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             measureBasedView: me.measureBasedView.getContentConfig()
         };
     },
-    
+
     setContentConfig: function(config) {
         var me = this;
         me.pageBasedView.setContentConfig(config.pageBasedView);
@@ -704,7 +704,7 @@ Ext.define('EdiromOnline.view.window.source.GotoMsg', {
 
 	cls: 'gotoDialogue',
 	bodyBorder: false,
-	
+
     height: 140,
     width: 320,
 
