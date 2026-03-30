@@ -1,8 +1,13 @@
 {
-    "name": "EdiromOnline",
+    "name_comment": "The application's namespace.",
+    "name": "EdiromOnlineFrontend",
+
+    "version_comment": "The version of the application.",
+    "version": "1.2.0",
 
     "requires": [
     ],
 
+    "id_comment": "TODO",
     "id": "7aa50e7f-e389-468f-8086-711fb01063e6"
 }
