@@ -11,29 +11,29 @@ Ext.define('EdiromOnline.controller.ConfigController', {
      * @param {Function} callback Callback function after successful loading
      * @param {Object} scope Scope for the callback
      */
-    async loadConfig(callback, scope) {
-        try {
-            const response = await fetch('config.json', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+    loadConfig: function(callback, scope) {
+        var me = this;
+
+        Ext.Ajax.request({
+            url: 'config.json',
+            method: 'GET',
+            success: function(response) {
+                try {
+                    me.config = Ext.JSON.decode(response.responseText);
+                    console.info('config.json for backendURL loaded.');
+                    if (callback) {
+                        callback.call(scope || me, me.config);
+                    }
+                } catch (e) {
+                    console.log('config.json syntax error – Using default configuration.');
+                    me.loadDefaultConfig(callback, scope);
                 }
-            });
-
-            if (!response.ok) {
-                throw new Error(`Status: ${response.status}`);
+            },
+            failure: function() {
+                console.log('No custom config.json found – Using default configuration.');
+                me.loadDefaultConfig(callback, scope);
             }
-
-            this.config = await response.json();
-            console.info('config.json for backendURL loaded.');
-
-            if (callback) {
-                callback.call(scope || this, this.config);
-            }
-        } catch (e) {
-            console.log('No custom config.json found or syntax error – Using default configuration.');
-            this.loadDefaultConfig(callback, scope);
-        }
+        });
     },
 
     /**
