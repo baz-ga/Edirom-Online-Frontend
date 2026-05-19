@@ -71,23 +71,33 @@ Ext.define('EdiromOnline.controller.AJAXController', {
             url = this.application.backendURL + url;
 
         var fn = Ext.bind(function(response, options, retryNoInt) {
-        
+
             try {
                 successFn(response);
             }catch(e) {
-                
-                console.log(e);
-                
+
+                console.error('AJAX success callback threw for: ' + url, e);
+
                 if(retryNoInt && retryNoInt > 0)
                     Ext.defer(me.doAJAXRequest, 500, me, [url, method, params, successFn, retryNoInt - 1], false);
             }
         }, me, [retryNo], true);
+
+        var failureFn = function(response) {
+            console.error('AJAX request failed: ' + url + ' — HTTP ' + response.status);
+            if (retryNo && retryNo > 0)
+                Ext.defer(me.doAJAXRequest, 500, me, [url, method, params, successFn, retryNo - 1], false);
+            else {
+                try { successFn(response); } catch(e) { console.error('AJAX failure callback threw for: ' + url, e); }
+            }
+        };
 
         Ext.Ajax.request({
             url: url,
             method: method,
             params: params,
             success: fn,
+            failure: failureFn,
             async: async
         });
     }
