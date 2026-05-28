@@ -162,6 +162,10 @@ Ext.define('EdiromOnline.controller.LinkController', {
                             uri: singleUri
                         },
                         Ext.bind(function(response){
+                            if (response.status !== 200) {
+                                console.error('LinkController: resource not found for URI: ' + singleUri + ' — HTTP ' + response.status);
+                                return;
+                            }
                             win.loadInternalId(singleUri.split('#')[1], response.responseText.trim());
                             win.show();
                         }, this)
