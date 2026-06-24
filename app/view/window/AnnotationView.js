@@ -295,26 +295,46 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 dataIndex: 'title',
                 flex: 4,
                 filter: true
+            },
+            {
+                header: getLangString('ediromPriority') + ' (legacy)',
+                dataIndex: 'priority',
+                flex: 1,
+                filter: true
+            },
+            {
+                header: getLangString('ediromCategory') + ' (legacy)',
+                dataIndex: 'categories',
+                flex: 2,
+                filter: true
             }
+            
         ];
 
         // save existing dataIndex entries as column names
         const existingColumnNames = columns.map(column =>
             column.dataIndex);
 
+        // Legacy fields declared by the backend — skip them in favour of taxonomy map entries
+        // when the annotation_hide_legacy_fields preference is true (default).
+        // Falls back to [] for older backends that don't send this key, or when pref is false.
+        const hideLegacyFields = getPreference('annotation_hide_legacy_fields', true) === 'true';
+        const legacyFields = hideLegacyFields && me.data && me.data.legacyFields ? me.data.legacyFields : [];
+
         //iterate over storeFields to create missing grid columns
         storeFields.forEach(field => {
+            if (legacyFields.includes(typeof field === 'string' ? field : field.name)) return;
             if (!existingColumnNames.includes(typeof field === 'string' ? field : field.name)) {
                 // if existingColumnNames does not include the value of field or field.name
                 // create fieldObject
                 const fieldName = typeof field === 'string' ? field : field.name;
                 const fieldObject = {
-                    header: getLangString('view.window.AnnotationView_' + fieldName),
+                    header: getLangString(fieldName),
                     dataIndex: fieldName,
                     renderer: me.createFieldRenderer(fieldName),
-                    flex: 1,
+                    flex: 1, //TODO evaluate filed content length to set more appropriate flex value
                     filter: true,
-                    hidden: emptyFields ? emptyFields.includes(field) : false
+                    hidden: emptyFields ? emptyFields.includes(fieldName) : false
                 };
                 // push fieldObject to columns array
                 columns.push(fieldObject);
