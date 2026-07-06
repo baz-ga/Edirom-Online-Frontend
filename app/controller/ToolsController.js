@@ -21,10 +21,6 @@ Ext.define('EdiromOnline.controller.ToolsController', {
 
     extend: 'Ext.app.Controller',
 
-    requires: [
-        'Ext.Error'
-    ],
-    
     measuresVisibilityListeners: {},
     annotationsVisibilityListeners: {},
     

@@ -20,9 +20,6 @@ Ext.define('EdiromOnline.controller.CookieController', {
 	
 	extend: 'Ext.app.Controller',
 	
-	requires:[
-	   'Ext.Error'
-	],
 	
 	init: function () {
 		window.getCookie = Ext.bind(this.getCookie, this);

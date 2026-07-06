@@ -61,12 +61,7 @@ Ext.define('EdiromOnline.controller.LanguageController', {
         var string = me.langFiles.get(lang)['keys'][key];
 
         if(!string) {
-            Ext.Error.raise({
-                msg: 'No language string found with this key',
-                key: key,   
-                lang: lang,
-                level: 'warn' //warn, error, fatal
-            });
+            Ext.log.warn('No language string found with this key: "' + key + '" (lang: ' + lang + ')');
 
             return key;
         }

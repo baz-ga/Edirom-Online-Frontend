@@ -20,10 +20,6 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 
     extend: 'Ext.app.Controller',
 
-    requires: [
-        'Ext.Error'
-    ],
-
     init: function() {
         window.getPreference = Ext.bind(this.getPreference, this);
     },
@@ -86,11 +82,7 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
         }
 
         if(!me.preferences[key]) {
-            Ext.Error.raise({
-                msg: 'No preference found with this key',
-                key: key,
-                level: 'warn' //warn, error, fatal
-            });
+            Ext.log.warn('No preference found with this key: "' + key + '"');
         
             return null;
         }
