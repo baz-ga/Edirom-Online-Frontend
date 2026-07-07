@@ -22,7 +22,6 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     requires: [
         'EdiromOnline.view.window.source.PageBasedView',
         'EdiromOnline.view.window.source.MeasureBasedView',
-        'Ext.draw.Component',
         'Ext.slider.Single',
         'Ext.form.ComboBox',
         'Ext.window.MessageBox'
