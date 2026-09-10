@@ -106,6 +106,40 @@ Ext.define('EdiromOnline.view.window.Window', {
     getTopbar: function() {
         return this.topbar;
     },
+
+    /**
+     * Returns the URIs of the documents this window shows.
+     *
+     * A window is opened for one document but may display further ones alongside it: a
+     * source's description is a TEI document in its own right, shown as a view of the
+     * source window. A link into any of them addresses this window, so all of them have to
+     * count as its own.
+     *
+     * @return {String[]} The URIs, the window's own document first.
+     */
+    getServedUris: function() {
+        var me = this;
+        var uris = [me.doc || (me.uri? me.uri.split('#')[0] : null)];
+
+        Ext.Array.each(me.views || [], function(view) {
+            var uri = view.view.uri;
+
+            if(uri && Ext.Array.indexOf(uris, uri.split('#')[0]) == -1)
+                uris.push(uri.split('#')[0]);
+        });
+
+        return uris;
+    },
+
+    /**
+     * Whether this window shows the document an URI addresses.
+     *
+     * @param {String} uri The URI, with or without a fragment.
+     * @return {Boolean}
+     */
+    servesUri: function(uri) {
+        return Ext.Array.indexOf(this.getServedUris(), uri.split('#')[0]) != -1;
+    },
     
     showView: function(viewType) {
 
@@ -137,11 +171,22 @@ Ext.define('EdiromOnline.view.window.Window', {
         return this.getLayout().getActiveItem();
     },
 
-    loadInternalId: function(internalId, internalIdType, ignoreActiveView) {
+    /**
+     * Shows an id of one of this window's documents in whichever of its views can display it.
+     *
+     * @param {String} internalId The id to show.
+     * @param {String} internalIdType The local name of the element it resolves to.
+     * @param {Boolean} ignoreActiveView Whether not to favour the view currently on top.
+     * @param {String} docUri The document the id belongs to. Defaults to the window's own,
+     *                        which is not always the right one: a source description is a
+     *                        document of its own, shown as a view of the source window.
+     */
+    loadInternalId: function(internalId, internalIdType, ignoreActiveView, docUri) {
 
         var me = this;
         me.internalId = internalId;
         me.internalIdType = internalIdType;
+        me.internalIdDoc = docUri || me.doc;
 
         var viewWeights = Ext.create('Ext.data.Store', {
             fields: [
@@ -152,7 +197,7 @@ Ext.define('EdiromOnline.view.window.Window', {
         
         for(var i = 0; i < me.views.length; i++) {
             var view = me.views[i].view;
-            var weight = view.getWeightForInternalLink(me.doc, me.internalIdType, me.internalId);
+            var weight = view.getWeightForInternalLink(me.internalIdDoc, me.internalIdType, me.internalId);
             
             if(view.defaultView)
                 weight += 5;
