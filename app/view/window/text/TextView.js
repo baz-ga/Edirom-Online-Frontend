@@ -398,13 +398,19 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		
 		if (me.uri != uri)
 		return 0;
-		
+
+		// an anchor created while rendering – a footnote, an endnote – has no counterpart
+		// in the document, so the server can only report its type as unknown. That this
+		// view has the anchor on screen is the better answer.
+		if (me.getInternalIdElement(id) != null)
+		return 70;
+
 		if (type == 'unknown' || type == 'graphic' || type == 'surface' || type == 'zone')
 		return 0;
-		
+
 		return 70;
 	},
-	
+
 	loadInternalId: function (internalId, internalIdType) {
 		var me = this;
 

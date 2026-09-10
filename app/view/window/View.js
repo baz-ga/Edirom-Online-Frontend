@@ -46,25 +46,38 @@ Ext.define('EdiromOnline.view.window.View', {
     },
 
     /**
-     * Scrolls to an element of this view's rendered content.
+     * Returns the element of this view's rendered content that carries an id.
      *
      * Content that passed through edirom_idPrefix.xsl carries this view's id on every
      * element id, so both the prefixed and the plain form are tried. The element has to be
      * inside this view: the same document may be open in several windows, and their copies
      * of the content share their ids.
      *
+     * @param {String} id The id, with or without this view's id prefix.
+     * @return {HTMLElement} The element, or null where this view does not render it.
+     */
+    getInternalIdElement: function(id) {
+        var me = this;
+        var el = me.getEl();
+
+        if(!el) return null;
+
+        var dom = Ext.getDom(id) || Ext.getDom(me.id + '_' + id);
+
+        return (dom && el.dom.contains(dom))? dom : null;
+    },
+
+    /**
+     * Scrolls to an element of this view's rendered content.
+     *
      * @param {String} id The id to scroll to, with or without this view's id prefix.
      * @return {Boolean} true if an element was found and scrolled to.
      */
     scrollToInternalId: function(id) {
         var me = this;
-        var el = me.getEl();
+        var dom = me.getInternalIdElement(id);
 
-        if(!el) return false;
-
-        var dom = Ext.getDom(id) || Ext.getDom(me.id + '_' + id);
-
-        if(!dom || !el.dom.contains(dom)) return false;
+        if(!dom) return false;
 
         var elem = Ext.get(dom);
         var hidden = !elem.isVisible();
