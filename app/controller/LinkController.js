@@ -88,8 +88,10 @@ Ext.define('EdiromOnline.controller.LinkController', {
             }else if(singleUri.match(/^xmldb:exist:\/\//)) {
 
                 if(config['useExisting']) {
+                    // a window answers for every document it shows, not only for the one it
+                    // was opened for – a source description is a document of its own
                     var win = existingWindows.findBy(function(win) {
-                        return win.uri.split('#')[0] == singleUri.split('#')[0];
+                        return win.servesUri && win.servesUri(singleUri);
                     });
 
                     if(win != null) {
@@ -171,7 +173,8 @@ Ext.define('EdiromOnline.controller.LinkController', {
                             uri: singleUri
                         },
                         Ext.bind(function(response){
-                            win.loadInternalId(singleUri.split('#')[1], response.responseText.trim());
+                            win.loadInternalId(singleUri.split('#')[1], response.responseText.trim(),
+                                false, singleUri.split('#')[0]);
                             win.show();
                         }, this)
                     );
@@ -245,7 +248,7 @@ Ext.define('EdiromOnline.controller.LinkController', {
                 uri: view.uri + '#' + docId
             },
             Ext.bind(function(response){
-                view.window.loadInternalId(docId, response.responseText.trim());
+                view.window.loadInternalId(docId, response.responseText.trim(), false, view.uri);
                 view.window.show();
             }, me)
         );
