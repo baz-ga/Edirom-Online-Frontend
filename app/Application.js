@@ -109,7 +109,7 @@ Ext.define('EdiromOnline.Application', {
                     // If there is no edition in the backend
                     if(editions == null) {
                         let html = `<div class="container" style="margin: 8.75%;">
-                                        <img src="icon.png"/>
+                                        <img src="/apps/bazga-data/bazga-coreData/images/BAZ-GA-Schriftzug_oben.png" id="startpageIcon"/>
                                         <h1 style="margin-top:5px;">Edirom Online</h1>
                                         <h3 class="navigatorCategoryTitle">No editions found.</h3>
                                         <ul></ul></div>`;
@@ -129,7 +129,7 @@ Ext.define('EdiromOnline.Application', {
                     // If there are multiple editions in the backend show a selection screen
                     } else {
                         let html = `<div class="container" style="margin: 8.75%;">
-                                        <img src="icon.png"/>
+                                        <img src="/apps/bazga-data/bazga-coreData/images/BAZ-GA-Schriftzug_oben.png" id="startpageIcon"/>
                                         <h1 style="margin-top:5px;">Edirom Online</h1>
                                         <h3 class="navigatorCategoryTitle">Bitte Edition auswählen</h3>
                                         <ul>`;
