@@ -172,16 +172,6 @@ $content_baseFont_size: 14px;
 		}
 	}
 	
-	.ref {
-		color: rgb(146, 64, 92);
-	}
-
-	.ref:hover {
-		color: rgb(146, 64, 92);
-		cursor: pointer;
-		text-decoration: underline;
-	}
-
 }
 
 
@@ -244,11 +234,6 @@ $content_baseFont_size: 14px;
 		    font-size: 1.3em;
 		}
 
-		span.ref {
-			cursor: pointer;
-			text-decoration: underline;
-		}
-		
 	}
 	
 	.previewArea {
